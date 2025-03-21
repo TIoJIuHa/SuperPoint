@@ -11,7 +11,7 @@ from .base_dataset import BaseDataset
 from superpoint.datasets import synthetic_dataset
 from .utils import pipeline
 from .utils.pipeline import parse_primitives
-from superpoint.settings import DATA_PATH
+from superpoint.settings import DATA_PATH, TMPDIR
 
 
 class SyntheticShapes(BaseDataset):
@@ -68,7 +68,7 @@ class SyntheticShapes(BaseDataset):
     ]
 
     def dump_primitive_data(self, primitive, tar_path, config):
-        temp_dir = Path(os.environ['TMPDIR'], primitive)
+        temp_dir = Path(TMPDIR, primitive)
 
         tf.logging.info('Generating tarfile for primitive {}.'.format(primitive))
         synthetic_dataset.set_random_state(np.random.RandomState(
@@ -128,7 +128,7 @@ class SyntheticShapes(BaseDataset):
             # Untar locally
             tf.logging.info('Extracting archive for primitive {}.'.format(primitive))
             tar = tarfile.open(tar_path)
-            temp_dir = Path(os.environ['TMPDIR'])
+            temp_dir = Path(TMPDIR)
             tar.extractall(path=temp_dir)
             tar.close()
 
